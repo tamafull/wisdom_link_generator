@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>WisdomGuildURL変換</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    textarea { width: 100%; height: 200px; }
+    button { padding: 0.5rem 1rem; margin-top: 1rem; }
+    .output a { display: block; margin: 0.5rem 0; }
+  </style>
+</head>
+<body>
+  <h1>WisdomGuildURL変換</h1>
+  <textarea id="inputText"></textarea>
+  <br>
+  <button onclick="convertText()">送信</button>
+  <div class="output" id="output"></div>
+  <script>
+    function convertText() {
+      const input = document.getElementById("inputText").value.trim();
+      const lines = input.split('\n');
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerHTML = '';
+
+      lines.forEach(line => {
+        const parts = line.trim().split(' ');
+        if (parts.length < 2) return;
+        const cardName = parts.slice(1).join(' ');
+        const url = `https://wonder.wisdom-guild.net/price/${cardName}/?stock_gt=1`;
+        const a = document.createElement("a");
+        a.href = url;
+        a.textContent = cardName;
+        a.target = "_blank";
+        outputDiv.appendChild(a);
+      });
+    }
+  </script>
+</body>
+</html>
