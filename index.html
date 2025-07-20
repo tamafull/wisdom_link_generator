@@ -18,10 +18,14 @@
   <div class="output" id="output"></div>
   <script>
     function convertText() {
-      const input = document.getElementById("inputText").value.trim();
+      const inputEl = document.getElementById("inputText");
+      const input = inputEl.value.trim();
       const lines = input.split('\n');
       const outputDiv = document.getElementById("output");
       outputDiv.innerHTML = '';
+
+      const encoded = encodeURIComponent(input);
+      history.replaceState(null, '', `?text=${encoded}`);
 
       lines.forEach(line => {
         const parts = line.trim().split(' ');
@@ -35,6 +39,17 @@
         outputDiv.appendChild(a);
       });
     }
+
+    function loadFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('text')) {
+        const decoded = decodeURIComponent(params.get('text'));
+        document.getElementById("inputText").value = decoded;
+        convertText();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadFromQuery);
   </script>
 </body>
 </html>
